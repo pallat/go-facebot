@@ -1,0 +1,5 @@
+package: goface
+import:
+- package: github.com/ant0ine/go-json-rest
+  subpackages:
+  - rest
