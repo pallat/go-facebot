@@ -30,7 +30,7 @@ func (m *Middleware) MiddlewareFunc(handler rest.HandlerFunc) rest.HandlerFunc {
 		expectedMAC := mac.Sum(nil)
 
 		fmt.Println("signatureHash", signatureHash)
-		fmt.Println("expectedMAC", expectedMAC)
+		fmt.Println("expectedMAC", string(expectedMAC))
 
 		// var expectedHash = crypto.createHmac('sha1', APP_SECRET)
 		//     .update(buf)
