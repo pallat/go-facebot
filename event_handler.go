@@ -6,7 +6,7 @@ import (
 )
 
 func receivedAuthentication(msg string) {}
-func receivedMessage(msg Messaging) {
+func receivedMessage(pageID string, msg Messaging) {
 	if msg.Message.Text == "" {
 		return
 	}
@@ -18,21 +18,26 @@ func receivedMessage(msg Messaging) {
 	// case "receipt":
 	// case "555":
 	default:
-		sendTextMessage(msg.Sender.ID, msg.Message.Text)
+		sendTextMessage(pageID, msg.Sender.ID, msg.Message.MID, msg.Message.Text)
 	}
 }
 func receivedDeliveryConfirmation(msg string) {}
 func receivedPostback(msg string)             {}
 
-func sendTextMessage(id, text string) {
+func sendTextMessage(pageID, id, mid, text string) {
 	var messageData = `{
+        "sender":{
+          "id":"` + pageID + `"
+        },
 		"recipient": {
 			"id": "` + id + `"
 		},
 		"message": {
+            "mid":"` + mid + `",
 			"text": "` + text + `"
 		}
 	}`
+
 	callSendAPI(messageData)
 }
 

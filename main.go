@@ -55,7 +55,7 @@ func PostHook(w rest.ResponseWriter, r *rest.Request) {
 	for _, entry := range data.Entry {
 		for _, msg := range entry.Messagings {
 			if msg.Message != nil {
-				receivedMessage(msg)
+				receivedMessage(entry.ID, msg)
 			}
 		}
 	}
