@@ -30,9 +30,9 @@ var (
 )
 
 func GetHook(w rest.ResponseWriter, r *rest.Request) {
-	if r.FormValue("hub.mode") == "subscribe" && r.FormValue("hub.verify_token") == validationToken {
+	if r.FormValue("hub[mode]") == "subscribe" && r.FormValue("hub[verify_token]") == validationToken {
 		log.Println("Validating webhook")
-		w.WriteJson(r.FormValue("hub.challenge"))
+		w.WriteJson(r.FormValue("hub[challenge]"))
 		return
 	}
 	log.Println("Failed validation. Make sure the validation tokens match.")
