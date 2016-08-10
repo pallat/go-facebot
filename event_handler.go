@@ -6,16 +6,15 @@ import (
 	"net/http"
 )
 
+var c = http.DefaultClient
+
 func receivedAuthentication(msg Messaging) error {
-	fmt.Println("receivedAuthentication....")
 	return sendTextMessage("", msg.Sender.ID, "", "Authentication successful")
 }
 func receivedMessage(pageID string, msg Messaging) error {
-	fmt.Println("receivedMessage....")
 	if msg.Message.Text == "" {
 		return nil
 	}
-	fmt.Println("receivedMessage....", msg.Message.Text)
 
 	switch msg.Message.Text {
 	// case "image":
@@ -24,7 +23,6 @@ func receivedMessage(pageID string, msg Messaging) error {
 	// case "receipt":
 	// case "555":
 	default:
-		fmt.Println("sendTextMessage....")
 		return sendTextMessage(pageID, msg.Sender.ID, msg.Message.MID, msg.Message.Text)
 	}
 
@@ -53,12 +51,11 @@ func sendTextMessage(pageID, id, mid, text string) error {
 }
 
 func callSendAPI(data string) error {
-	c := &http.Client{
-		Transport: &http.Transport{
-			DisableKeepAlives: true,
-		},
-	}
-	fmt.Println("callSendAPI....")
+	// c := &http.Client{
+	// 	Transport: &http.Transport{
+	// 	// DisableKeepAlives: true,
+	// 	},
+	// }
 
 	r, err := http.NewRequest("POST", "https://graph.facebook.com/v2.6/me/messages?access_token="+pageAccessToken, bytes.NewBufferString(data))
 	if err != nil {
