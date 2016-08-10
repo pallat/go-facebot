@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -14,10 +15,19 @@ const (
 	validationToken = "EAACEdEose0cBAPWQN6lEeX3FO3NHwzTKZAbKHgaQpddehI4kFDxyUttiN1FD9Hk1bp5pHLgpt2BaZCuvDKu2JxAD0CuTwpzDEaGmPFVryB8wAwI665YMQYxtL5LUHAu8TMjSqGZAUq1ZADUCLotWssrLugPwO6SjM5SV92bgLwZDZD"
 )
 
-type User struct {
-	Id   string
-	Name string
-}
+var (
+	allowedMethods = []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}
+	allowedHeaders = []string{
+		"Accept",
+		"Authorization",
+		"X-Real-IP",
+		"Content-Type",
+		"X-Custom-Header",
+		"Query",
+		"Language",
+		"Origin",
+	}
+)
 
 func GetHook(w rest.ResponseWriter, r *rest.Request) {
 	if r.FormValue("hub.mode") == "subscribe" && r.FormValue("hub.verify_token") == validationToken {
@@ -52,14 +62,22 @@ func PostHook(w rest.ResponseWriter, r *rest.Request) {
 
 }
 
-func ping(w rest.ResponseWriter, req *rest.Request) {
-}
-
 func main() {
 	api := rest.NewApi()
 	api.Use(rest.DefaultDevStack...)
+
+	api.Use(&rest.CorsMiddleware{
+		RejectNonCorsRequests: false,
+		OriginValidator: func(origin string, request *rest.Request) bool {
+			return true
+		},
+		AllowedMethods:                allowedMethods,
+		AllowedHeaders:                allowedHeaders,
+		AccessControlAllowCredentials: true,
+		AccessControlMaxAge:           3600,
+	})
+
 	router, err := rest.MakeRouter(
-		rest.Get("/", ping),
 		rest.Get("/webhook", GetHook),
 
 		rest.Post("/webhook", PostHook),
@@ -67,6 +85,13 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	api.SetApp(router)
-	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), api.MakeHandler()))
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "9292"
+	}
+	fmt.Println(":"+port, "Listening....")
+	log.Fatal(http.ListenAndServe(":"+port, api.MakeHandler()))
 }
