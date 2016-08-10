@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 )
 
@@ -67,11 +68,10 @@ func callSendAPI(data string) error {
 		return err
 	}
 
-	fmt.Println("callSendAPI....DO")
-	_, err = c.Do(r)
-	if err != nil {
-		fmt.Println("error:", err)
-	}
-	fmt.Println("callSendAPI....DONE")
+	resp, err := c.Do(r)
+
+	b, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println(string(b))
+
 	return err
 }
