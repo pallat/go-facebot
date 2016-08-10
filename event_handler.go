@@ -5,7 +5,9 @@ import (
 	"net/http"
 )
 
-func receivedAuthentication(msg string) {}
+func receivedAuthentication(msg Messaging) error {
+	return sendTextMessage("", msg.Sender.ID, "", "Authentication successful")
+}
 func receivedMessage(pageID string, msg Messaging) error {
 	if msg.Message.Text == "" {
 		return nil
@@ -28,17 +30,18 @@ func receivedPostback(msg string)             {}
 
 func sendTextMessage(pageID, id, mid, text string) error {
 	var messageData = `{
-        "sender":{
-          "id":"` + pageID + `"
-        },
 		"recipient": {
 			"id": "` + id + `"
 		},
 		"message": {
-            "mid":"` + mid + `",
 			"text": "` + text + `"
 		}
 	}`
+
+	// "sender":{
+	//   "id":"` + pageID + `"
+	// },
+	//             "mid":"` + mid + `",
 
 	return callSendAPI(messageData)
 }
