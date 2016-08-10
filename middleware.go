@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/hmac"
 	"crypto/sha256"
+	"encoding/hex"
 	"fmt"
 	"strings"
 
@@ -30,7 +31,7 @@ func (m *Middleware) MiddlewareFunc(handler rest.HandlerFunc) rest.HandlerFunc {
 		expectedMAC := mac.Sum(nil)
 
 		fmt.Println("signatureHash", signatureHash)
-		fmt.Println("expectedMAC", string(expectedMAC))
+		fmt.Println("expectedMAC", hex.EncodeToString(expectedMAC))
 
 		// var expectedHash = crypto.createHmac('sha1', APP_SECRET)
 		//     .update(buf)
