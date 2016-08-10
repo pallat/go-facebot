@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 )
 
@@ -44,7 +45,6 @@ func sendTextMessage(pageID, id, mid, text string) error {
 			"text": "` + text + `"
 		}
 	}`
-	fmt.Println("sendTextMessage....", messageData)
 
 	// "sender":{
 	//   "id":"` + pageID + `"
@@ -69,10 +69,10 @@ func callSendAPI(data string) error {
 
 	r.Header.Set("x-hub-signature", appSecret)
 
-	_, err = c.Do(r)
+	resp, err := c.Do(r)
 
-	// b, _ := ioutil.ReadAll(resp.Body)
-	// fmt.Println(string(b))
+	b, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println(string(b))
 
 	return err
 }
