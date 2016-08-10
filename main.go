@@ -55,9 +55,14 @@ func PostHook(w rest.ResponseWriter, r *rest.Request) {
 	for _, entry := range data.Entry {
 		for _, msg := range entry.Messagings {
 			if msg.Message != nil {
-				receivedMessage(entry.ID, msg)
+				err = receivedMessage(entry.ID, msg)
 			}
 		}
+	}
+
+	if err != nil {
+		w.WriteJson(map[string]string{"error": err.Error()})
+		w.WriteHeader(500)
 	}
 
 }
