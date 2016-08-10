@@ -26,8 +26,8 @@ func (m *Middleware) MiddlewareFunc(handler rest.HandlerFunc) rest.HandlerFunc {
 		// method := elements[0]
 		signatureHash := elements[1]
 
-		mac := hmac.New(sha256.New, []byte(appSecret))
-		// mac.Write(message)
+		mac := hmac.New(sha256.New, nil)
+		mac.Write([]byte(appSecret))
 		expectedMAC := mac.Sum(nil)
 
 		fmt.Println("signatureHash", signatureHash)
