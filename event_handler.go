@@ -62,11 +62,15 @@ func callSendAPI(data string) error {
 
 	r, err := http.NewRequest("POST", "https://graph.facebook.com/v2.6/me/messages?access_token="+pageAccessToken, bytes.NewBufferString(data))
 	if err != nil {
+		fmt.Println("error:", err)
 		return err
 	}
 
 	fmt.Println("callSendAPI....DO")
 	_, err = c.Do(r)
+	if err != nil {
+		fmt.Println("error:", err)
+	}
 	fmt.Println("callSendAPI....DONE")
 	return err
 }
