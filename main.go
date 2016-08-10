@@ -83,7 +83,7 @@ func main() {
 	})
 
 	router, err := rest.MakeRouter(
-		rest.Get("/webhook/", GetHook),
+		rest.Get("/webhook/hub", GetHook),
 
 		rest.Post("/webhook/", PostHook),
 	)
