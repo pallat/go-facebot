@@ -67,6 +67,8 @@ func callSendAPI(data string) error {
 		return err
 	}
 
+	r.Header.Set("x-hub-signature", appSecret)
+
 	_, err = c.Do(r)
 
 	// b, _ := ioutil.ReadAll(resp.Body)
