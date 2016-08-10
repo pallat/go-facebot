@@ -38,13 +38,12 @@ func receivedPostback(msg Messaging) {
 
 func sendTextMessage(pageID, id, mid, text string) error {
 	var messageData = `{
-		"recipient": {
-			"id": "` + id + `"
-		},
-		"message": {
-			"text": "` + text + `"
-		}
-	}`
+  "recipient":{
+    "id":"` + id + `"
+  },
+  "message":{
+    "text":"` + text + `"
+  }`
 
 	// "sender":{
 	//   "id":"` + pageID + `"
@@ -66,7 +65,7 @@ func callSendAPI(data string) error {
 		fmt.Println("error:", err)
 		return err
 	}
-
+	r.Header.Set("Content-Type", "application/json")
 	r.Header.Set("x-hub-signature", appSecret)
 
 	resp, err := c.Do(r)
