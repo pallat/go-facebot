@@ -78,9 +78,9 @@ func main() {
 	})
 
 	router, err := rest.MakeRouter(
-		rest.Get("/webhook", GetHook),
+		rest.Get("/webhook/", GetHook),
 
-		rest.Post("/webhook", PostHook),
+		rest.Post("/webhook/", PostHook),
 	)
 	if err != nil {
 		log.Fatal(err)
