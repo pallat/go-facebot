@@ -28,8 +28,12 @@ func receivedMessage(pageID string, msg Messaging) error {
 
 	return nil
 }
+
 func receivedDeliveryConfirmation(msg string) {}
-func receivedPostback(msg string)             {}
+
+func receivedPostback(msg Messaging) {
+	sendTextMessage("", msg.Sender.ID, "", "Postback called")
+}
 
 func sendTextMessage(pageID, id, mid, text string) error {
 	var messageData = `{
