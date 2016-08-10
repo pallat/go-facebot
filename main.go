@@ -82,6 +82,8 @@ func main() {
 		AccessControlMaxAge:           3600,
 	})
 
+	api.Use(&Middleware{})
+
 	router, err := rest.MakeRouter(
 		rest.Get("/webhook/hub", GetHook),
 
