@@ -26,6 +26,7 @@ var (
 		"Query",
 		"Language",
 		"Origin",
+		"Access-Control-Allow-Origin",
 	}
 	pipe map[string][]string
 )
