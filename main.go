@@ -87,7 +87,7 @@ func main() {
 		AccessControlMaxAge:           3600,
 	})
 
-	api.Use(&Middleware{})
+	// api.Use(&Middleware{})
 
 	router, err := rest.MakeRouter(
 		rest.Get("/events", SendSSE),
