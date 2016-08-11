@@ -2,22 +2,22 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 
+	"gopkg.in/yaml.v2"
+
 	"github.com/ant0ine/go-json-rest/rest"
 )
 
-const (
-	appSecret       = "dfcff3882e7e584ea07ca040f3aeb058"
-	pageAccessToken = "EAAESpoV8ZBZC0BAKAuxDj7JiZBjIqU3h05ZB0TCK40LiG7pUPfbSMKcVCKx2MnQwGgIEC1JlY2xUV775uCtZCPrnaDGXxVqZAKJZCbX2qX7GdXsyP8LJB1HlqHSIDszhCPvhj0ORTiTC3YloJxO0eJKzwfdRZAjuT0MZD"
-	validationToken = "EAAESpoV8ZBZC0BANLkzrzFouB8sz8N0ZCUWV8ZCJQE6mMUZAqyBZAM6pPZCkVoZBlgdMIQZAFMvGOqw1MIuXvLIIdMvZA34GowLRYbgSvdiqgkGu1NmuDA9HnjlfW0ATb94ZApFCiFtD9oc7zDxaeL7eRek94GxXdsTnPkZD"
-)
-
 var (
-	allowedMethods = []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}
-	allowedHeaders = []string{
+	appSecret       string
+	pageAccessToken string
+	validationToken string
+	allowedMethods  = []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}
+	allowedHeaders  = []string{
 		"Accept",
 		"Authorization",
 		"X-Real-IP",
@@ -68,6 +68,11 @@ func PostHook(w rest.ResponseWriter, r *rest.Request) {
 }
 
 func main() {
+	app := config()
+	appSecret = app.AppSecret
+	pageAccessToken = app.PageAccessToken
+	validationToken = app.ValidationToken
+
 	api := rest.NewApi()
 	api.Use(rest.DefaultDevStack...)
 
@@ -101,4 +106,28 @@ func main() {
 	}
 	fmt.Println(":"+port, "Listening....")
 	log.Fatal(http.ListenAndServe(":"+port, api.MakeHandler()))
+}
+
+type facebookApp struct {
+	AppSecret       string `yaml:"appSecret"`
+	PageAccessToken string `yaml:"pageAccessToken"`
+	ValidationToken string `yaml:"validationToken"`
+}
+
+func config() facebookApp {
+	var b []byte
+	var err error
+	if b, err = ioutil.ReadFile("./config.yaml"); err != nil {
+		if b, err = ioutil.ReadFile("./config.yaml"); err != nil {
+			log.Fatal("you need yaml config file.")
+		}
+	}
+
+	var app facebookApp
+
+	if err = yaml.Unmarshal(b, &app); err != nil {
+		log.Fatal("Please check your config.yaml file.")
+	}
+
+	return app
 }
