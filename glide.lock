@@ -1,9 +1,11 @@
-hash: 6a7fdaa6ab6f62d54846e19450382e3e229524c0411a9dd6e937a0bfa7265ae9
-updated: 2016-08-10T12:21:59.078523127+07:00
+hash: ee62f653c3d6de1b573a9cb15710c80fea02348617006418f2c340e1f109a280
+updated: 2016-08-11T12:26:53.751244361+07:00
 imports:
 - name: github.com/ant0ine/go-json-rest
   version: 3a807d6d8d36e0f9175d6c292030fce09bcbb2db
   subpackages:
   - rest
   - rest/trie
+- name: gopkg.in/yaml.v2
+  version: e4d366fc3c7938e2958e662b4258c7a89e1f0e3e
 testImports: []

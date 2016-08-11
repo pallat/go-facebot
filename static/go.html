@@ -1,0 +1,7 @@
+
+  <script>
+    var source = new EventSource('http://pallat.herokuapp.com/events');
+    source.onmessage = function(e) {
+      document.body.innerHTML += e.data + '<br>';
+    };
+  </script>

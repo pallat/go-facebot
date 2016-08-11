@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"os"
 
+	"goface/static"
+
 	"gopkg.in/yaml.v2"
 
 	"github.com/ant0ine/go-json-rest/rest"
@@ -90,6 +92,7 @@ func main() {
 	// api.Use(&Middleware{})
 
 	router, err := rest.MakeRouter(
+		rest.Get("/static/#file", static.Static),
 		rest.Get("/events", SendSSE),
 		rest.Get("/webhook/hub", GetHook),
 
