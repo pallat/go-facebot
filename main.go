@@ -118,9 +118,7 @@ func config() facebookApp {
 	var b []byte
 	var err error
 	if b, err = ioutil.ReadFile("./config.yaml"); err != nil {
-		if b, err = ioutil.ReadFile("./config.yaml"); err != nil {
-			log.Fatal("you need yaml config file.")
-		}
+		log.Fatal("you need yaml config file.")
 	}
 
 	var app facebookApp
