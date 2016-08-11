@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"net/http/httputil"
 )
 
 var c = http.DefaultClient
@@ -60,13 +61,15 @@ func callSendAPI(data string) error {
 	// 	},
 	// }
 
-	r, err := http.NewRequest("POST", "https://graph.facebook.com/v2.7/me/messages?access_token="+pageAccessToken, bytes.NewBufferString(data))
+	r, err := http.NewRequest("POST", "https://graph.facebook.com/v2.6/me/messages?access_token="+pageAccessToken, bytes.NewBufferString(data))
 	if err != nil {
 		fmt.Println("error:", err)
 		return err
 	}
 	r.Header.Set("Content-Type", "application/json")
-	r.Header.Set("x-hub-signature", appSecret)
+
+	br, _ := httputil.DumpRequest(r, true)
+	fmt.Println(string(br))
 
 	resp, err := c.Do(r)
 
