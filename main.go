@@ -91,8 +91,10 @@ func main() {
 
 	// api.Use(&Middleware{})
 
+	go static.Static()
+
 	router, err := rest.MakeRouter(
-		rest.Get("/static/#file", static.Static),
+		// rest.Get("/static/#file", static.Static),
 		rest.Get("/events", SendSSE),
 		rest.Get("/webhook/hub", GetHook),
 
