@@ -117,11 +117,18 @@ type facebookApp struct {
 func config() facebookApp {
 	var b []byte
 	var err error
+	app := facebookApp{
+		AppSecret:       os.Getenv("appSecret"),
+		PageAccessToken: os.Getenv("pageAccessToken"),
+		ValidationToken: os.Getenv("validationToken"),
+	}
+	if app.PageAccessToken != "" {
+		return app
+	}
+
 	if b, err = ioutil.ReadFile("./config.yaml"); err != nil {
 		log.Fatal("you need yaml config file.")
 	}
-
-	var app facebookApp
 
 	if err = yaml.Unmarshal(b, &app); err != nil {
 		log.Fatal("Please check your config.yaml file.")
