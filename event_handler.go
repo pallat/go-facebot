@@ -3,9 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
 	"net/http"
-	"net/http/httputil"
 )
 
 var c = http.DefaultClient
@@ -47,11 +45,6 @@ func sendTextMessage(pageID, id, mid, text string) error {
   }
 }`
 
-	// "sender":{
-	//   "id":"` + pageID + `"
-	// },
-	//             "mid":"` + mid + `",
-
 	return callSendAPI(messageData)
 }
 
@@ -68,14 +61,7 @@ func callSendAPI(data string) error {
 		return err
 	}
 	r.Header.Set("Content-Type", "application/json")
-
-	br, _ := httputil.DumpRequest(r, true)
-	fmt.Println(string(br))
-
-	resp, err := c.Do(r)
-
-	b, _ := ioutil.ReadAll(resp.Body)
-	fmt.Println(string(b))
+	_, err = c.Do(r)
 
 	return err
 }
