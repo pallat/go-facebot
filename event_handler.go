@@ -45,7 +45,7 @@ func sendTextMessage(pageID, id, mid, text string) error {
   }
 }`
 
-	pipe["1"] <- text
+	pipe["1"] = append(pipe["1"], text)
 
 	return callSendAPI(messageData)
 }

@@ -29,11 +29,11 @@ var (
 		"Language",
 		"Origin",
 	}
-	pipe map[string]chan string
+	pipe map[string][]string
 )
 
 func init() {
-	pipe = make(map[string]chan string)
+	pipe = make(map[string][]string)
 }
 
 func GetHook(w rest.ResponseWriter, r *rest.Request) {
@@ -47,7 +47,7 @@ func GetHook(w rest.ResponseWriter, r *rest.Request) {
 }
 
 func PostHook(w rest.ResponseWriter, r *rest.Request) {
-	pipe["1"] = make(chan string)
+	pipe["1"] = make([]string)
 	data := Common{}
 	err := r.DecodeJsonPayload(&data)
 	if err != nil {
