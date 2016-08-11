@@ -90,6 +90,7 @@ func main() {
 	api.Use(&Middleware{})
 
 	router, err := rest.MakeRouter(
+		rest.Get("/events", SendSSE),
 		rest.Get("/webhook/hub", GetHook),
 
 		rest.Post("/webhook/", PostHook),
