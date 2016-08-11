@@ -14,7 +14,8 @@ func SendSSE(w rest.ResponseWriter, r *rest.Request) {
 	httpResponseWriter.Header().Set("Connection", "keep-alive")
 
 	// go interval(httpResponseWriter)
-	httpResponseWriter.Write([]byte("data: " + <-pipe["1"] + "\n\n"))
+	data := <-pipe["1"]
+	httpResponseWriter.Write([]byte("data: " + data + "\n\n"))
 
 	// httpResponseWriter.Write([]byte("id: " + time.Now().String() + "\n"))
 	// httpResponseWriter.Write([]byte("data: " + "test\n\n"))
