@@ -17,7 +17,7 @@ func SendSSE(w rest.ResponseWriter, r *rest.Request) {
 	go waiting(httpResponseWriter)
 
 	httpResponseWriter.Write([]byte("id: " + time.Now().String() + "\n"))
-	httpResponseWriter.Write([]byte("data: wait...\n\n"))
+	httpResponseWriter.Write([]byte("data: first...\n\n"))
 
 	// httpResponseWriter.Write([]byte("id: " + time.Now().String() + "\n"))
 	// httpResponseWriter.Write([]byte("data: " + "test\n\n"))
