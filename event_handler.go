@@ -23,7 +23,9 @@ func receivedMessage(pageID string, msg Messaging) error {
 	// case "receipt":
 	// case "555":
 	default:
-		return sendTextMessage(pageID, msg.Sender.ID, msg.Message.MID, msg.Message.Text)
+		pipe["1"] = append(pipe["1"], msg.Message.Text)
+
+		// return sendTextMessage(pageID, msg.Sender.ID, msg.Message.MID, msg.Message.Text)
 	}
 
 	return nil
@@ -44,8 +46,6 @@ func sendTextMessage(pageID, id, mid, text string) error {
     "text":"` + text + `"
   }
 }`
-
-	pipe["1"] = append(pipe["1"], text)
 
 	return callSendAPI(messageData)
 }
