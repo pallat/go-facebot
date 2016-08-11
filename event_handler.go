@@ -63,7 +63,7 @@ func callSendAPI(data string) error {
 	r.Header.Set("Content-Type", "application/json")
 	_, err = c.Do(r)
 
-	pipe["1"] = <-data
+	pipe["1"] <- data
 
 	return err
 }
