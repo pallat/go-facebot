@@ -44,7 +44,8 @@ func sendTextMessage(pageID, id, mid, text string) error {
   },
   "message":{
     "text":"` + text + `"
-  }`
+  }
+}`
 
 	// "sender":{
 	//   "id":"` + pageID + `"
