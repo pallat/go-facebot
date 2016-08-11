@@ -7,8 +7,6 @@ import (
 	"net/http"
 	"os"
 
-	"goface/static"
-
 	"gopkg.in/yaml.v2"
 
 	"github.com/ant0ine/go-json-rest/rest"
@@ -96,13 +94,12 @@ func main() {
 
 	// api.Use(&Middleware{})
 
-	go static.Static()
-
 	router, err := rest.MakeRouter(
 		rest.Get("/events", SendSSE),
 		rest.Get("/webhook/hub", GetHook),
 
 		rest.Post("/webhook/", PostHook),
+		rest.Post("/chat", Chat),
 	)
 	if err != nil {
 		log.Fatal(err)
