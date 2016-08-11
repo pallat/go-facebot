@@ -24,6 +24,7 @@ func SendSSE(w rest.ResponseWriter, r *rest.Request) {
 			}
 			httpResponseWriter.Write([]byte("data: " + pop + "\n\n"))
 		}
+		httpResponseWriter.Write([]byte("data: \n\n"))
 	}
 
 	// httpResponseWriter.Write([]byte("id: " + time.Now().String() + "\n"))
