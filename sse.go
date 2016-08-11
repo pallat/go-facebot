@@ -14,6 +14,16 @@ func SendSSE(w rest.ResponseWriter, r *rest.Request) {
 	httpResponseWriter.Header().Set("Connection", "keep-alive")
 
 	// go interval(httpResponseWriter)
+	go waiting(httpResponseWriter)
+
+	httpResponseWriter.Write([]byte("id: " + time.Now().String() + "\n"))
+	httpResponseWriter.Write([]byte("data: wait...\n\n"))
+
+	// httpResponseWriter.Write([]byte("id: " + time.Now().String() + "\n"))
+	// httpResponseWriter.Write([]byte("data: " + "test\n\n"))
+}
+
+func waiting(w http.ResponseWriter) {
 	for {
 		if len(pipe["1"]) > 0 {
 			pop := pipe["1"][0]
@@ -22,14 +32,13 @@ func SendSSE(w rest.ResponseWriter, r *rest.Request) {
 			} else {
 				pipe["1"] = pipe["1"][1:]
 			}
-			httpResponseWriter.Write([]byte("data: " + pop + "\n\n"))
+			w.Write([]byte("id: " + time.Now().String() + "\n"))
+			w.Write([]byte("data: " + pop + "\n\n"))
 		}
-		httpResponseWriter.Write([]byte("data: wait...\n\n"))
+		w.Write([]byte("id: " + time.Now().String() + "\n"))
+		w.Write([]byte("data: wait...\n\n"))
 		time.Sleep(5 * time.Second)
 	}
-
-	// httpResponseWriter.Write([]byte("id: " + time.Now().String() + "\n"))
-	// httpResponseWriter.Write([]byte("data: " + "test\n\n"))
 }
 
 func interval(w http.ResponseWriter) {
