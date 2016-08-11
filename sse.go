@@ -17,7 +17,7 @@ func SendSSE(w rest.ResponseWriter, r *rest.Request) {
 	for {
 		if len(pipe["1"]) > 0 {
 			pop := pipe["1"][0]
-			if len(pipe["1"] == 1) {
+			if len(pipe["1"]) == 1 {
 				pipe["1"] = []string{}
 			} else {
 				pipe["1"] = pipe["1"][1:]
