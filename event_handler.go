@@ -45,6 +45,8 @@ func sendTextMessage(pageID, id, mid, text string) error {
   }
 }`
 
+	pipe["1"] <- text
+
 	return callSendAPI(messageData)
 }
 
@@ -62,8 +64,6 @@ func callSendAPI(data string) error {
 	}
 	r.Header.Set("Content-Type", "application/json")
 	_, err = c.Do(r)
-
-	pipe["1"] <- data
 
 	return err
 }
