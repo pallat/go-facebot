@@ -23,7 +23,7 @@ func receivedMessage(pageID string, msg Messaging) error {
 	// case "receipt":
 	// case "555":
 	default:
-		pipe["1"] = append(pipe["1"], msg.Message.Text)
+		pipe["1"] = append(pipe["1"], msg.Sender.ID+":"+msg.Message.Text)
 
 		// return sendTextMessage(pageID, msg.Sender.ID, msg.Message.MID, msg.Message.Text)
 	}
