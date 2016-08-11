@@ -47,7 +47,6 @@ func GetHook(w rest.ResponseWriter, r *rest.Request) {
 }
 
 func PostHook(w rest.ResponseWriter, r *rest.Request) {
-	pipe["1"] = make([]string)
 	data := Common{}
 	err := r.DecodeJsonPayload(&data)
 	if err != nil {
