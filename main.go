@@ -29,7 +29,12 @@ var (
 		"Language",
 		"Origin",
 	}
+	pipe map[string]chan string
 )
+
+func init() {
+	pipe = make(map[string]chan string)
+}
 
 func GetHook(w rest.ResponseWriter, r *rest.Request) {
 	if r.FormValue("hub[mode]") == "subscribe" && r.FormValue("hub[verify_token]") == validationToken {
@@ -42,6 +47,7 @@ func GetHook(w rest.ResponseWriter, r *rest.Request) {
 }
 
 func PostHook(w rest.ResponseWriter, r *rest.Request) {
+	pipe["1"] = make(chan string)
 	data := Common{}
 	err := r.DecodeJsonPayload(&data)
 	if err != nil {
@@ -94,7 +100,6 @@ func main() {
 	go static.Static()
 
 	router, err := rest.MakeRouter(
-		// rest.Get("/static/#file", static.Static),
 		rest.Get("/events", SendSSE),
 		rest.Get("/webhook/hub", GetHook),
 
